@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skin Lesion Prediction App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM2v0R9W/Y23vKuFjH6JFFtl1KJRNxCA6XW8kE3A" crossorigin="anonymous">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background: #fff;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 24px;
+        }
+
+        .upload-section {
+            margin: 1.5rem 0;
+        }
+
+        .upload-section input[type="file"] {
+            display: none;
+        }
+
+        .upload-section label {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .upload-section label:hover {
+            background-color: #45a049;
+        }
+
+        .btn-submit {
+            margin-top: 15px;
+            padding: 10px 20px;
+            border: none;
+            background-color: #333;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .prediction-result {
+            margin-top: 20px;
+            font-size: 1.1rem;
+            color: #333;
+        }
+
+        .confidence-bar {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .confidence-fill {
+            height: 20px;
+            line-height: 20px;
+            color: white;
+            text-align: center;
+            font-weight: bold;
+            transition: width 0.4s ease;
+        }
+
+        .confidence-fill.low {
+            background-color: #ff6666;
+        }
+
+        .confidence-fill.medium {
+            background-color: #ffcc66;
+        }
+
+        .confidence-fill.high {
+            background-color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Skin Lesion Prediction App</h1>
+        <div class="upload-section">
+            <form action="/" method="post" enctype="multipart/form-data">
+                <input type="file" name="file" id="file" required>
+                <label for="file"><i class="fas fa-upload"></i> Choose an Image</label>
+                <button type="submit" class="btn-submit">Predict</button>
+            </form>
+        </div>
+
+        {% if lesion_type and confidence %}
+        <div class="prediction-result">
+            <p><strong>Predicted Lesion:</strong> {{ lesion_type }}</p>
+            <p><strong>Confidence:</strong> {{ confidence }}%</p>
+            
+            <div class="confidence-bar">
+                <div class="confidence-fill 
+                    {% if confidence >= 80 %}high{% elif confidence >= 50 %}medium{% else %}low{% endif %}"
+                    style="width: {{ confidence }}%;">
+                    {{ confidence }}%
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
